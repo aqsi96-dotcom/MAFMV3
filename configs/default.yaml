@@ -1,0 +1,33 @@
+# MAFMv3: Multi-Scale Attention-Based Feature Fusion MobileNetv3
+# Image and Vision Computing, 2025
+data:
+  train_dir: data/vindr_spinexr/train
+  val_dir: data/vindr_spinexr/val
+  image_size: 224
+  num_workers: 4
+  num_classes: 2   # set to your label count; VinDr-SpineXR abnormal/normal or multi-label
+  class_names:
+    - normal
+    - abnormal
+  use_histogram_equalization: true
+  multi_input_mode: preprocess   # preprocess | views
+  # preprocess: raw / normalized / hist-eq streams (paper abstract)
+  # views: axial / coronal / sagittal streams (paper method section)
+
+model:
+  backbone: mobilenetv3_large_100
+  pretrained: true
+  aspp_rates: [1, 6, 12, 18]
+  dropout: 0.3
+
+train:
+  epochs: 100
+  batch_size: 32
+  learning_rate: 0.001
+  weight_decay: 0.0001
+  early_stopping_patience: 15
+  seed: 42
+
+output:
+  checkpoint_dir: checkpoints
+  log_dir: runs
